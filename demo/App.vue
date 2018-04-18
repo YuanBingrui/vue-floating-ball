@@ -5,13 +5,9 @@
 </template>
 
 <script>
-import FloatingBall from './components/FloatingBall'
 
 export default {
   name: 'App',
-  components: {
-    'floating-ball': FloatingBall
-  },
   data () {
     return {
       themeColor: '#316745',

@@ -3,13 +3,22 @@
   "version": "1.0.0",
   "description": "A vue plug for showing floating ball",
   "author": "bingrui_yuan0721@163.com",
-  "private": true,
+  "private": false,
+  "main": "dist/js/vue-floating-ball.min.js",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --open --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:YuanBingrui/vue-floating-ball.git"
+  },
+  "keywords": [
+    "vue",
+    "floating ball"
+  ],
   "dependencies": {
     "vue": "^2.5.2"
   },
@@ -36,13 +45,12 @@
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^3.0.1",
     "eslint-plugin-vue": "^4.0.0",
-    "extract-text-webpack-plugin": "^3.0.0",
+    "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
     "node-notifier": "^5.1.2",
     "node-sass": "^4.8.3",
-    "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",
     "portfinder": "^1.0.13",
     "postcss-import": "^11.0.0",
@@ -70,5 +78,6 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "license": "MIT"
 }
