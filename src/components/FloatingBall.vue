@@ -11,14 +11,19 @@
     <div class="floating-ball-out"></div>
     <div class="floating-ball-in"></div>
     <div class="floating-ball-center"></div>
+    <floating-ball-popover></floating-ball-popover>
   </div>
 </template>
 
 <script>
 import FloatBallEvent from '@/libs/floating-ball-event'
+import FloatingBallPopover from './FloatingBallPopover'
 
 export default {
   name: 'FloatingBall',
+  components: {
+    'floating-ball-popover': FloatingBallPopover
+  },
   props: {
     themeColor: {
       type: String,
@@ -30,7 +35,9 @@ export default {
     }
   },
   data () {
-    return {}
+    return {
+      isShow: false
+    }
   },
   created () {},
   mounted () {
@@ -67,8 +74,8 @@ export default {
 <style lang="scss" scoped>
 .floating-ball-box {
   position: fixed;
-  width: 4.5rem;
-  height: 4.5rem;
+  width: 3.5rem;
+  height: 3.5rem;
   z-index: 30000;
   $zoom-scale: scale(1.2, 1.2);
   @mixin ball-position {
@@ -84,20 +91,20 @@ export default {
   }
   .floating-ball-out {
     @include ball-position;
-    width: 80%;
-    height: 80%;
+    width: 100%;
+    height: 100%;
     background-color: rgba(0, 128, 128, 0.1);
   }
   .floating-ball-in {
     @include ball-position;
-    width: 65%;
-    height: 65%;
+    width: 85%;
+    height: 85%;
     background-color: rgba(0, 128, 128, 0.2);
   }
   .floating-ball-center {
     @include ball-position;
-    width: 50%;
-    height: 50%;
+    width: 70%;
+    height: 70%;
     background-color: rgba(0, 128, 128, 0.3);
   }
   &:hover {

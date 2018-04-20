@@ -1,9 +1,11 @@
 const FloatBallEvent = {}
 
 FloatBallEvent.init = function (floatballObj, themeColor, positionValue) {
+  let elData = floatballObj._data
+  let popoverNode
   let floatingballBox = floatballObj.$el
   floatingballBox.appendChild(nodeToFragment(floatingballBox, 'init', colorRgb(themeColor)))
-  initPosition(positionValue)
+  initBallPosition(positionValue)
   floatballObj.$on('mousedown', onDocumentMouseDown, false)
   floatballObj.$on('mouseenter', onDocumentMouseEnter, false)
   floatballObj.$on('mouseleave', onDocumentMouseLeave, false)
@@ -15,6 +17,7 @@ FloatBallEvent.init = function (floatballObj, themeColor, positionValue) {
   function nodeToFragment (node, eventType, themeColor) {
     let scaleValue = eventType === 'down' ? 'scale(1.2, 1.2)' : 'scale(1, 1)'
     let opacity = eventType === 'down' ? 0.3 : 0.1
+    let popoverStatus = elData.isShow ? 10 : 0
     let flag = document.createDocumentFragment()
     let child = node.firstChild
 
@@ -28,15 +31,22 @@ FloatBallEvent.init = function (floatballObj, themeColor, positionValue) {
       // 判断节点类型
       if (node.nodeType === 1) {
         opacity += 0.1
-        node.style.transform = scaleValue
-        node.style.background = 'rgba(' + themeColor + ',' + opacity + ')'
+        if (node.className !== 'floating-ball-popover') {
+          node.style.transform = scaleValue
+          node.style.background = 'rgba(' + themeColor + ',' + opacity + ')'
+        } else {
+          node.style.width = popoverStatus + 'rem'
+          node.style.height = popoverStatus + 'rem'
+          node.style.background = 'rgba(' + themeColor + ',' + 0.65 + ')'
+          popoverNode = node
+        }
       }
     }
     return flag
   }
 
   // 初始化位置
-  function initPosition (positionValue) {
+  function initBallPosition (positionValue) {
     let positionArr = positionValue.split(' ')
     for (let i = 0; i < positionArr.length; i++) {
       switch (positionArr[i]) {
@@ -56,6 +66,8 @@ FloatBallEvent.init = function (floatballObj, themeColor, positionValue) {
           handleNumber(i, positionArr[i])
       }
     }
+
+    defineBallPopover()
 
     function handleNumber (index, positionNum) {
       let halfBoxWidth = floatingballBox.offsetWidth / 2
@@ -82,6 +94,23 @@ FloatBallEvent.init = function (floatballObj, themeColor, positionValue) {
         }
       }
     }
+  }
+
+  function defineBallPopover () {
+    let positionValue = 2.5 + 'rem'
+    if (floatingballBox.style.top) {
+      popoverNode.style.top = positionValue
+    }
+    if (floatingballBox.style.bottom) {
+      popoverNode.style.bottom = positionValue
+    }
+    if (floatingballBox.style.left) {
+      popoverNode.style.left = positionValue
+    }
+    if (floatingballBox.style.right) {
+      popoverNode.style.right = positionValue
+    }
+    console.log(floatingballBox.style.top, floatingballBox.style.bottom, floatingballBox.style.left, floatingballBox.style.right)
   }
 
   // 颜色转换
@@ -144,7 +173,12 @@ FloatBallEvent.init = function (floatballObj, themeColor, positionValue) {
   // PC端
   function onDocumentMouseDown (event) {
     event.preventDefault()
-
+    if (elData.isShow) {
+      elData.isShow = false
+    } else {
+      defineBallPopover()
+      elData.isShow = true
+    }
     floatingballBox.appendChild(nodeToFragment(floatingballBox, 'down', colorRgb(themeColor)))
 
     document.addEventListener('mousemove', onDocumentMouseMove, false)
@@ -153,6 +187,11 @@ FloatBallEvent.init = function (floatballObj, themeColor, positionValue) {
 
   function onDocumentMouseMove (event) {
     event.preventDefault()
+    if (elData.isShow) {
+      elData.isShow = false
+      popoverNode.style.width = 0
+      popoverNode.style.height = 0
+    }
     let presentPosition = getPresentPosition(event, 'mouse')
 
     floatingballBox.style.left = presentPosition.presentX + 'px'
