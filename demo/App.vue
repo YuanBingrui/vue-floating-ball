@@ -11,12 +11,17 @@ export default {
   data () {
     return {
       themeColor: '#316745',
-      initPosition: 'bottom 100'
+      initPosition: 'top left'
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-#app {}
+#app {
+  margin: 1rem;
+  width: 700px;
+  height: 600px;
+  border: 1px #ccc solid;
+}
 </style>

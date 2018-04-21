@@ -11,39 +11,15 @@
     <div class="floating-ball-out"></div>
     <div class="floating-ball-in"></div>
     <div class="floating-ball-center"></div>
-    <floating-ball-popover></floating-ball-popover>
   </div>
 </template>
 
 <script>
-import FloatBallEvent from '@/libs/floating-ball-event'
-import FloatingBallPopover from './FloatingBallPopover'
 
 export default {
   name: 'FloatingBall',
-  components: {
-    'floating-ball-popover': FloatingBallPopover
-  },
-  props: {
-    themeColor: {
-      type: String,
-      default: '#adadad'
-    },
-    initPosition: {
-      type: String,
-      default: 'bottom right'
-    }
-  },
   data () {
-    return {
-      isShow: false
-    }
-  },
-  created () {},
-  mounted () {
-    this.$nextTick(() => {
-      FloatBallEvent.init(this, this.themeColor, this.initPosition)
-    })
+    return {}
   },
   methods: {
     mouseDown (event) {
@@ -73,7 +49,7 @@ export default {
 
 <style lang="scss" scoped>
 .floating-ball-box {
-  position: fixed;
+  position: absolute;
   width: 3.5rem;
   height: 3.5rem;
   z-index: 30000;

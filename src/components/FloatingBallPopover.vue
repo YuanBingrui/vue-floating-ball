@@ -20,8 +20,6 @@ export default {
 .floating-ball-popover {
   position: absolute;
   border-radius: 2rem;
-  // width: 0;
-  // height: 0;
   // transition: width 2s, height 2s;
 }
 </style>

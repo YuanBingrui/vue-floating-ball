@@ -1,7 +1,7 @@
-import FloatingBall from './components/FloatingBall.vue'
+import FloatingBallContain from './components/FloatingBallContain'
 
 const VueFloatingBall = {
-  'floating-ball': FloatingBall
+  'floating-ball': FloatingBallContain
 }
 
 const install = function (Vue) {
