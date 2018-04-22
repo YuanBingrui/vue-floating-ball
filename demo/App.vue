@@ -19,7 +19,7 @@ export default {
   data () {
     return {
       themeColor: '#316745',
-      initPosition: 'top right'
+      initPosition: 'bottom right'
     }
   }
 }
@@ -34,7 +34,7 @@ export default {
   background-color: red;
 }
 .floating-box {
-  margin: 1rem;
+  margin: 2rem;
   width: 700px;
   height: 900px;
   border: 1px #ccc solid;

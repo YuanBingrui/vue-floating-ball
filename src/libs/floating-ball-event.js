@@ -8,8 +8,10 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
   let floatballObj = floatballContainObj.$children[0]
   let floatingballBox = floatballObj.$el
   let popoverNode = floatballContainObj.$children[1].$el
-  let viewContentW = floatballContainObjParent.offsetWidth <= window.screen.width ? floatballContainObjParent.offsetWidth : window.screen.width
-  let viewContentH = floatballContainObjParent.offsetHeight <= window.screen.height ? floatballContainObjParent.offsetHeight : window.screen.height
+  let offsetDistanceObj = offset(floatballContainObjParent)
+
+  let viewContentW = (offsetDistanceObj.left + floatballContainObjParent.offsetWidth) <= window.screen.width ? floatballContainObjParent.offsetWidth : window.screen.width
+  let viewContentH = (offsetDistanceObj.top + floatballContainObjParent.offsetHeight) <= window.screen.height ? floatballContainObjParent.offsetHeight : window.screen.height
   let range
   let popoverPosX
   let popoverPosY
@@ -17,8 +19,6 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
   let fmtThemeColor = colorRgb(themeColor)
 
   floatingballBox.appendChild(nodeToFragment(floatingballBox, 'init', fmtThemeColor))
-
-  let offsetDistanceObj = offset(floatballContainObjParent)
 
   initBallPosition(positionValue)
 
@@ -57,12 +57,11 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
   function initBallPosition (positionValue) {
     range = {
       minX: offsetDistanceObj.left,
-      maxX: offsetDistanceObj.left + viewContentW - floatingballParent.offsetWidth,
+      maxX: (offsetDistanceObj.left + floatballContainObjParent.offsetWidth) <= window.screen.width ? (offsetDistanceObj.left + viewContentW - floatingballParent.offsetWidth) : (window.screen.width - floatingballParent.offsetWidth),
       minY: offsetDistanceObj.top,
-      maxY: offsetDistanceObj.top + viewContentH - floatingballParent.offsetHeight
+      maxY: (offsetDistanceObj.top + floatballContainObjParent.offsetHeight) <= window.screen.height ? (offsetDistanceObj.top + viewContentH - floatingballParent.offsetHeight) : (window.screen.height - floatingballParent.offsetHeight - 97)
     }
     let positionArr = positionValue.split(' ')
-    console.log(offsetDistanceObj, range, window.screen.height)
     let defaultOffsetMinX = (range.minX + 7) + 'px'
     let defaultOffsetMaxX = (range.maxX - 7) + 'px'
     let defaultOffsetMinY = (range.minY + 7) + 'px'
@@ -82,37 +81,37 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
         case 'right':
           floatingballParent.style.left = defaultOffsetMaxX
           break
-        default:
-          handleNumber(i, positionArr[i])
+        // default:
+        //   handleNumber(i, positionArr[i])
       }
     }
 
     initBallPopover()
 
-    function handleNumber (index, positionNum) {
-      let halfBoxWidth = floatingballParent.offsetWidth / 2
-      let halfBoxHeight = floatingballParent.offsetHeight / 2
+    // function handleNumber (index, positionNum) {
+    //   let halfBoxWidth = floatingballParent.offsetWidth / 2
+    //   let halfBoxHeight = floatingballParent.offsetHeight / 2
 
-      if (index === 0) {
-        let tempPositionH
-        if (positionNum <= 50) {
-          tempPositionH = (positionNum / 100) * viewContentH - halfBoxHeight
-          floatingballParent.style.top = tempPositionH >= 0 ? tempPositionH : defaultOffsetY
-        } else {
-          tempPositionH = (1 - positionNum / 100) * viewContentH + halfBoxHeight
-          floatingballParent.style.bottom = tempPositionH >= 0 ? tempPositionH : defaultOffsetY
-        }
-      } else {
-        let tempPositionW
-        if (positionNum <= 50) {
-          tempPositionW = (positionNum / 100) * viewContentW - halfBoxWidth
-          floatingballParent.style.left = tempPositionW >= 0 ? tempPositionW : defaultOffsetX
-        } else {
-          tempPositionW = (1 - positionNum / 100) + halfBoxWidth
-          floatingballParent.style.right = tempPositionW >= 0 ? tempPositionW : defaultOffsetX
-        }
-      }
-    }
+    //   if (index === 0) {
+    //     let tempPositionH
+    //     if (positionNum <= 50) {
+    //       tempPositionH = (positionNum / 100) * viewContentH - halfBoxHeight
+    //       floatingballParent.style.top = tempPositionH >= 0 ? tempPositionH : defaultOffsetY
+    //     } else {
+    //       tempPositionH = (1 - positionNum / 100) * viewContentH + halfBoxHeight
+    //       floatingballParent.style.bottom = tempPositionH >= 0 ? tempPositionH : defaultOffsetY
+    //     }
+    //   } else {
+    //     let tempPositionW
+    //     if (positionNum <= 50) {
+    //       tempPositionW = (positionNum / 100) * viewContentW - halfBoxWidth
+    //       floatingballParent.style.left = tempPositionW >= 0 ? tempPositionW : defaultOffsetX
+    //     } else {
+    //       tempPositionW = (1 - positionNum / 100) + halfBoxWidth
+    //       floatingballParent.style.right = tempPositionW >= 0 ? tempPositionW : defaultOffsetX
+    //     }
+    //   }
+    // }
   }
 
   // ballPopover init position
@@ -204,9 +203,9 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
 
     range = {
       minX: offsetDistanceObj.left,
-      maxX: floatballContainObjParent.offsetWidth <= window.screen.width ? (offsetDistanceObj.left + viewContentW - floatingballParent.offsetWidth) : (window.screen.width- floatingballParent.offsetWidth),
+      maxX: (offsetDistanceObj.left + floatballContainObjParent.offsetWidth) <= window.screen.width ? (offsetDistanceObj.left + viewContentW - floatingballParent.offsetWidth) : (window.screen.width - floatingballParent.offsetWidth),
       minY: (offsetDistanceObj.top - document.documentElement.scrollTop) > 0 ? (offsetDistanceObj.top - document.documentElement.scrollTop) : 0,
-      maxY: floatballContainObjParent.offsetHeight <= window.screen.height ? (offsetDistanceObj.top + viewContentH - floatingballParent.offsetHeight) : ((offsetDistanceObj.top + floatballContainObjParent.offsetHeight - window.screen.height) > document.documentElement.scrollTop ? (window.screen.height - floatingballParent.offsetHeight - 97) : (offsetDistanceObj.top + floatballContainObjParent.offsetHeight- document.documentElement.scrollTop - floatingballParent.offsetHeight))
+      maxY: (offsetDistanceObj.top + floatballContainObjParent.offsetHeight) <= window.screen.height ? (offsetDistanceObj.top + viewContentH - floatingballParent.offsetHeight) : ((offsetDistanceObj.top + floatballContainObjParent.offsetHeight - window.screen.height) > document.documentElement.scrollTop ? (window.screen.height - floatingballParent.offsetHeight - 97) : (offsetDistanceObj.top + floatballContainObjParent.offsetHeight - document.documentElement.scrollTop - floatingballParent.offsetHeight))
     }
 
     if (event.clientX <= range.minX) {
