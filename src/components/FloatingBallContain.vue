@@ -1,7 +1,7 @@
 <template>
   <div class="floating-ball-contain">
     <floating-ball></floating-ball>
-    <floating-ball-popover></floating-ball-popover>
+    <floating-ball-popover>sss</floating-ball-popover>
   </div>
 </template>
 

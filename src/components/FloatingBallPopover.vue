@@ -1,5 +1,7 @@
 <template>
-  <div class="floating-ball-popover"></div>
+  <div class="floating-ball-popover">
+    <slot></slot>
+  </div>
 </template>
 
 <script>
