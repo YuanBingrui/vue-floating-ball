@@ -1,7 +1,6 @@
 const FloatBallEvent = {}
 
 FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) {
-  console.log(floatballContainObj)
   let floatballContainObjParent = floatballContainObj.$el.parentNode
   let elData = floatballContainObj._data
   let floatingballParent = floatballContainObj.$el
@@ -13,8 +12,6 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
   let viewContentW = (offsetDistanceObj.left + floatballContainObjParent.offsetWidth) <= window.screen.width ? floatballContainObjParent.offsetWidth : window.screen.width
   let viewContentH = (offsetDistanceObj.top + floatballContainObjParent.offsetHeight) <= window.screen.height ? floatballContainObjParent.offsetHeight : window.screen.height
   let range
-  let popoverPosX
-  let popoverPosY
 
   let fmtThemeColor = colorRgb(themeColor)
 
@@ -86,7 +83,7 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
       }
     }
 
-    initBallPopover()
+    currentBallPopover()
 
     // function handleNumber (index, positionNum) {
     //   let halfBoxWidth = floatingballParent.offsetWidth / 2
@@ -114,58 +111,49 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     // }
   }
 
-  // ballPopover init position
-  function initBallPopover () {
-    let popoverStatus = elData.isShow ? 10 : 0
-    popoverNode.style.width = popoverStatus + 'rem'
-    popoverNode.style.height = popoverStatus + 'rem'
-    popoverNode.style.background = 'rgba(' + fmtThemeColor + ',' + 0.65 + ')'
-
-    if (floatingballParent.style.top) {
-      popoverPosY = 'top'
-    }
-    if (floatingballParent.style.bottom) {
-      popoverPosY = 'bottom'
-    }
-    if (floatingballParent.style.left) {
-      popoverPosX = 'left'
-    }
-    if (floatingballParent.style.right) {
-      popoverPosX = 'right'
-    }
-  }
-
   // ballPopover current position
   function currentBallPopover () {
     let popoverStatus = elData.isShow ? 10 : 0
     popoverNode.style.width = popoverStatus + 'rem'
     popoverNode.style.height = popoverStatus + 'rem'
-    let positionValue = 2.5 + 'rem'
+    popoverNode.style.background = 'rgba(' + fmtThemeColor + ',' + 0.65 + ')'
 
-    if (popoverPosY === 'top') {
-      if (Number(floatingballParent.style.top) >= 150 || Number(viewContentH - floatingballParent.style.top) <= 150) {
+    updateRange()
+
+    let floatingballParentTop = Number(floatingballParent.style.top.replace(/px/, ''))
+    let floatingballParentLeft = Number(floatingballParent.style.left.replace(/px/, ''))
+
+    if (floatingballParentTop < range.minY + 100) {
+      if (floatingballParentLeft > range.minX + 100 && floatingballParentLeft < range.maxX - 100) {
         popoverNode.style.top = 3.5 + 'rem'
+        popoverNode.style.left = -3.25 + 'rem'
+      } else if (floatingballParentLeft < range.minX + 100) {
+        popoverNode.style.top = 2.5 + 'rem'
+        popoverNode.style.left = 2.5 + 'rem'
       } else {
-        popoverNode.style.top = positionValue
-      }
-    } else {
-      if (Number(floatingballParent.style.bottom) >= 150 || Number(viewContentH - floatingballParent.style.bottom) <= 150) {
-        popoverNode.style.bottom = -3.5 + 'rem'
-      } else {
-        popoverNode.style.bottom = positionValue
+        popoverNode.style.top = 2.5 + 'rem'
+        popoverNode.style.left = -9 + 'rem'
       }
     }
-    if (popoverPosX === 'left') {
-      if (Number(floatingballParent.style.left) >= 150 || Number(viewContentW - floatingballParent.style.left) <= 150) {
+    if (floatingballParentTop > range.maxY - 100) {
+      if (floatingballParentLeft > range.minX + 100 && floatingballParentLeft < range.maxX - 100) {
+        popoverNode.style.top = -10 + 'rem'
         popoverNode.style.left = -3.25 + 'rem'
+      } else if (floatingballParentLeft < range.minX + 100) {
+        popoverNode.style.top = -9 + 'rem'
+        popoverNode.style.left = 2.5 + 'rem'
       } else {
-        popoverNode.style.left = positionValue
+        popoverNode.style.top = -9 + 'rem'
+        popoverNode.style.left = -9 + 'rem'
       }
-    } else {
-      if (Number(floatingballParent.style.right) >= 150 || Number(viewContentW - floatingballParent.style.right) <= 150) {
-        popoverNode.style.left = -3.25 + 'rem'
-      } else {
-        popoverNode.style.right = positionValue
+    }
+    if (floatingballParentTop > range.minY + 100 && floatingballParentTop < range.maxY - 100) {
+      if (floatingballParentLeft < range.minX + 200) {
+        popoverNode.style.top = -3.25 + 'rem'
+        popoverNode.style.left = 3.5 + 'rem'
+      } else if (floatingballParentLeft > range.maxX - 200) {
+        popoverNode.style.top = -3.25 + 'rem'
+        popoverNode.style.left = -10 + 'rem'
       }
     }
   }
@@ -201,12 +189,7 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     let presentX = event.clientX - floatingballParent.offsetWidth / 2
     let presentY = event.clientY - floatingballParent.offsetHeight / 2
 
-    range = {
-      minX: offsetDistanceObj.left,
-      maxX: (offsetDistanceObj.left + floatballContainObjParent.offsetWidth) <= window.screen.width ? (offsetDistanceObj.left + viewContentW - floatingballParent.offsetWidth) : (window.screen.width - floatingballParent.offsetWidth),
-      minY: (offsetDistanceObj.top - document.documentElement.scrollTop) > 0 ? (offsetDistanceObj.top - document.documentElement.scrollTop) : 0,
-      maxY: (offsetDistanceObj.top + floatballContainObjParent.offsetHeight) <= window.screen.height ? (offsetDistanceObj.top + viewContentH - floatingballParent.offsetHeight) : ((offsetDistanceObj.top + floatballContainObjParent.offsetHeight - window.screen.height) > document.documentElement.scrollTop ? (window.screen.height - floatingballParent.offsetHeight - 97) : (offsetDistanceObj.top + floatballContainObjParent.offsetHeight - document.documentElement.scrollTop - floatingballParent.offsetHeight))
-    }
+    updateRange()
 
     if (event.clientX <= range.minX) {
       presentX = range.minX
@@ -224,6 +207,15 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     return {
       presentX: presentX,
       presentY: presentY
+    }
+  }
+
+  function updateRange () {
+    range = {
+      minX: offsetDistanceObj.left,
+      maxX: (offsetDistanceObj.left + floatballContainObjParent.offsetWidth) <= window.screen.width ? (offsetDistanceObj.left + viewContentW - floatingballParent.offsetWidth) : (window.screen.width - floatingballParent.offsetWidth),
+      minY: (offsetDistanceObj.top - document.documentElement.scrollTop) > 0 ? (offsetDistanceObj.top - document.documentElement.scrollTop) : 0,
+      maxY: (offsetDistanceObj.top + floatballContainObjParent.offsetHeight) <= window.screen.height ? (offsetDistanceObj.top + viewContentH - floatingballParent.offsetHeight) : ((offsetDistanceObj.top + floatballContainObjParent.offsetHeight - window.screen.height) > document.documentElement.scrollTop ? (window.screen.height - floatingballParent.offsetHeight - 97) : (offsetDistanceObj.top + floatballContainObjParent.offsetHeight - document.documentElement.scrollTop - floatingballParent.offsetHeight))
     }
   }
 

@@ -19,7 +19,7 @@ export default {
   data () {
     return {
       themeColor: '#316745',
-      initPosition: 'bottom right'
+      initPosition: 'top left'
     }
   }
 }
