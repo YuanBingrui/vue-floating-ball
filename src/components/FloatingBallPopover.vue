@@ -1,7 +1,5 @@
 <template>
-  <div class="floating-ball-popover">
-    <slot></slot>
-  </div>
+  <div class="floating-ball-popover"></div>
 </template>
 
 <script>
@@ -11,6 +9,18 @@ export default {
     return {
 
     }
+  },
+  render: function (createElement) {
+    return createElement(
+      'h1',
+      {
+        style: {
+          color: 'red',
+          fontSize: '14px'
+        }
+      },
+      '一则头条dd'
+    )
   },
   created () {},
   mounted () {},

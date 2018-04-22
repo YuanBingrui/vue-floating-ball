@@ -78,8 +78,8 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
         case 'right':
           floatingballParent.style.left = defaultOffsetMaxX
           break
-        // default:
-        //   handleNumber(i, positionArr[i])
+        default:
+          handleNumber(i, positionArr[i])
       }
     }
 
@@ -89,23 +89,22 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     //   let halfBoxWidth = floatingballParent.offsetWidth / 2
     //   let halfBoxHeight = floatingballParent.offsetHeight / 2
 
+    //   positionNum = Number(positionNum)
     //   if (index === 0) {
-    //     let tempPositionH
-    //     if (positionNum <= 50) {
-    //       tempPositionH = (positionNum / 100) * viewContentH - halfBoxHeight
-    //       floatingballParent.style.top = tempPositionH >= 0 ? tempPositionH : defaultOffsetY
+    //     if (positionNum > 0 && positionNum < 100) {
+    //       floatingballParent.style.top = offsetDistanceObj.top + (positionNum / 100) * (range.maxY + floatingballParent.offsetHeight) - halfBoxHeight + 'px'
+    //     } else if (positionNum <= 0) {
+    //       floatingballParent.style.top = defaultOffsetMinY
     //     } else {
-    //       tempPositionH = (1 - positionNum / 100) * viewContentH + halfBoxHeight
-    //       floatingballParent.style.bottom = tempPositionH >= 0 ? tempPositionH : defaultOffsetY
+    //       floatingballParent.style.top = defaultOffsetMaxY
     //     }
     //   } else {
-    //     let tempPositionW
-    //     if (positionNum <= 50) {
-    //       tempPositionW = (positionNum / 100) * viewContentW - halfBoxWidth
-    //       floatingballParent.style.left = tempPositionW >= 0 ? tempPositionW : defaultOffsetX
+    //     if (positionNum > 0 && positionNum < 100) {
+    //       floatingballParent.style.left = offsetDistanceObj.left + (positionNum / 100) * (range.maxX + floatingballParent.offsetWidth) - halfBoxWidth + 'px'
+    //     } else if (positionNum <= 0) {
+    //       floatingballParent.style.left = defaultOffsetMinX
     //     } else {
-    //       tempPositionW = (1 - positionNum / 100) + halfBoxWidth
-    //       floatingballParent.style.right = tempPositionW >= 0 ? tempPositionW : defaultOffsetX
+    //       floatingballParent.style.left = defaultOffsetMaxX
     //     }
     //   }
     // }
@@ -298,24 +297,34 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
   // 移动端
   function onDocumentTouchStart (event) {
     event.preventDefault()
+    if (elData.isShow) {
+      elData.isShow = false
+    } else {
+      elData.isShow = true
+    }
+    currentBallPopover()
 
     floatingballBox.appendChild(nodeToFragment(floatingballBox, 'down', fmtThemeColor))
 
     let touch = event.touches[0]
     let presentPosition = getPresentPosition(touch, 'touch')
 
-    floatingballBox.style.left = presentPosition.presentX + 'px'
-    floatingballBox.style.top = presentPosition.presentY + 'px'
+    floatingballParent.style.left = presentPosition.presentX + 'px'
+    floatingballParent.style.top = presentPosition.presentY + 'px'
   }
 
   function onDocumentTouchMove (event) {
     event.preventDefault()
-
+    if (elData.isShow) {
+      elData.isShow = false
+      popoverNode.style.width = 0
+      popoverNode.style.height = 0
+    }
     let touch = event.touches[0]
     let presentPosition = getPresentPosition(touch, 'touch')
 
-    floatingballBox.style.left = presentPosition.presentX + 'px'
-    floatingballBox.style.top = presentPosition.presentY + 'px'
+    floatingballParent.style.left = presentPosition.presentX + 'px'
+    floatingballParent.style.top = presentPosition.presentY + 'px'
   }
 
   function onDocumentTouchEnd (event) {
