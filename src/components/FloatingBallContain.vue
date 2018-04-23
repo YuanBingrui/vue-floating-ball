@@ -38,13 +38,8 @@ export default {
       popoverEventsNum: null
     }
   },
-  watch: {
-    popoverEvents: function () {
-      this.popoverEventsNum = this.popoverEvents.length
-    }
-  },
   created () {
-    this.popoverEventsNum = this.popoverEvents.length
+    this.popoverEventsNum = this.popoverEvents ? this.popoverEvents.length : 4
   },
   mounted () {
     this.$nextTick(() => {
