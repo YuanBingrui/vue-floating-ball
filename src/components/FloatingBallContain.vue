@@ -1,7 +1,7 @@
 <template>
   <div class="floating-ball-contain">
     <floating-ball></floating-ball>
-    <floating-ball-popover></floating-ball-popover>
+    <floating-ball-popover :popover-events="popoverEvents"></floating-ball-popover>
   </div>
 </template>
 
@@ -24,20 +24,33 @@ export default {
     initPosition: {
       type: String,
       default: 'bottom right'
+    },
+    popoverEvents: {
+      type: Array,
+      validator (val) {
+        return val instanceof Array
+      }
     }
   },
   data () {
     return {
-
+      isShow: false,
+      popoverEventsNum: null
     }
   },
-  created () {},
+  watch: {
+    popoverEvents: function () {
+      this.popoverEventsNum = this.popoverEvents.length
+    }
+  },
+  created () {
+    this.popoverEventsNum = this.popoverEvents.length
+  },
   mounted () {
     this.$nextTick(() => {
       FloatBallEvent.init(this, this.themeColor, this.initPosition)
     })
-  },
-  methods: {}
+  }
 }
 </script>
 

@@ -18,9 +18,6 @@
 
 export default {
   name: 'FloatingBall',
-  data () {
-    return {}
-  },
   methods: {
     mouseDown (event) {
       this.$emit('mousedown', event)

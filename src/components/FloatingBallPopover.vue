@@ -1,37 +1,109 @@
-<template>
-  <div class="floating-ball-popover"></div>
-</template>
-
 <script>
+import Emitter from '@/libs/emitter'
+
 export default {
   name: 'FloatingBallPopover',
-  data () {
-    return {
-
-    }
-  },
+  mixins: [ Emitter ],
   render: function (createElement) {
+    let self = this
     return createElement(
-      'h1',
+      'div',
       {
-        style: {
-          color: 'red',
-          fontSize: '14px'
+        class: {
+          'floating-ball-popover': true
         }
       },
-      '一则头条dd'
+      self.popoverEvents.map((eventItem) => {
+        return createElement(
+          'div',
+          {
+            class: {
+              'floating-ball-popover-item': true
+            },
+            on: {
+              click: () => self.dispatch(eventItem.parentName, eventItem.eventName, self)
+            }
+          },
+          [
+            createElement(
+              'div',
+              {
+                class: {
+                  'floating-ball-popover-item-icon': true
+                }
+              },
+              [
+                createElement(
+                  'i',
+                  {
+                    class: [eventItem.iconName, 'ion']
+                  }
+                )
+              ]
+            ),
+            createElement(
+              'div',
+              {
+                class: {
+                  'floating-ball-popover-item-word': true
+                }
+              },
+              eventItem.showName
+            )
+          ])
+      })
     )
   },
-  created () {},
-  mounted () {},
-  methods: {}
+  props: {
+    popoverEvents: {
+      type: Array,
+      validator (val) {
+        return val instanceof Array
+      }
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+@import "../style/ionicons";
+
 .floating-ball-popover {
   position: absolute;
   border-radius: 2rem;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  padding: 0.2rem;
   // transition: width 2s, height 2s;
+  &-item {
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 3.8rem;
+    margin: 0.2rem 0.6rem;
+    @mixin popover-common {
+      box-sizing: border-box;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    &-icon {
+      @include popover-common;
+      height: 3.4rem;
+      // border: 1px #fff solid;
+      border-radius: 50%;
+    }
+    &-word {
+      @include popover-common;
+      height: 1rem;
+      font-size: 1rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 }
 </style>

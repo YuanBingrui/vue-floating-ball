@@ -78,12 +78,12 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
         case 'right':
           floatingballParent.style.left = defaultOffsetMaxX
           break
-        default:
-          handleNumber(i, positionArr[i])
+        // default:
+        //   handleNumber(i, positionArr[i])
       }
     }
 
-    currentBallPopover()
+    currentBallPopover('mouse')
 
     // function handleNumber (index, positionNum) {
     //   let halfBoxWidth = floatingballParent.offsetWidth / 2
@@ -111,13 +111,15 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
   }
 
   // ballPopover current position
-  function currentBallPopover () {
+  function currentBallPopover (eventType) {
     let popoverStatus = elData.isShow ? 10 : 0
+    popoverNode.style.display = elData.isShow ? 'flex' : 'none'
     popoverNode.style.width = popoverStatus + 'rem'
-    popoverNode.style.height = popoverStatus + 'rem'
+    popoverNode.style.minHeight = popoverStatus + 'rem'
     popoverNode.style.background = 'rgba(' + fmtThemeColor + ',' + 0.65 + ')'
+    let tempPopoverEventNum = computedPopoverNum() - 2
 
-    updateRange()
+    updateRange(eventType)
 
     let floatingballParentTop = Number(floatingballParent.style.top.replace(/px/, ''))
     let floatingballParentLeft = Number(floatingballParent.style.left.replace(/px/, ''))
@@ -136,24 +138,28 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     }
     if (floatingballParentTop > range.maxY - 100) {
       if (floatingballParentLeft > range.minX + 100 && floatingballParentLeft < range.maxX - 100) {
-        popoverNode.style.top = -10 + 'rem'
+        popoverNode.style.top = -(10 + 5 * tempPopoverEventNum) + 'rem'
         popoverNode.style.left = -3.25 + 'rem'
       } else if (floatingballParentLeft < range.minX + 100) {
-        popoverNode.style.top = -9 + 'rem'
+        popoverNode.style.top = -(9 + 5 * tempPopoverEventNum) + 'rem'
         popoverNode.style.left = 2.5 + 'rem'
       } else {
-        popoverNode.style.top = -9 + 'rem'
+        popoverNode.style.top = -(9 + 5 * tempPopoverEventNum) + 'rem'
         popoverNode.style.left = -9 + 'rem'
       }
     }
     if (floatingballParentTop > range.minY + 100 && floatingballParentTop < range.maxY - 100) {
       if (floatingballParentLeft < range.minX + 200) {
-        popoverNode.style.top = -3.25 + 'rem'
+        popoverNode.style.top = -(3.25 + 2.5 * tempPopoverEventNum) + 'rem'
         popoverNode.style.left = 3.5 + 'rem'
       } else if (floatingballParentLeft > range.maxX - 200) {
-        popoverNode.style.top = -3.25 + 'rem'
+        popoverNode.style.top = -(3.25 + 2.5 * tempPopoverEventNum) + 'rem'
         popoverNode.style.left = -10 + 'rem'
       }
+    }
+
+    function computedPopoverNum () {
+      return Math.ceil(elData.popoverEventsNum / 2)
     }
   }
 
@@ -188,7 +194,7 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     let presentX = event.clientX - floatingballParent.offsetWidth / 2
     let presentY = event.clientY - floatingballParent.offsetHeight / 2
 
-    updateRange()
+    updateRange(eventType)
 
     if (event.clientX <= range.minX) {
       presentX = range.minX
@@ -209,12 +215,13 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     }
   }
 
-  function updateRange () {
+  function updateRange (eventType) {
+    let tempCurrentMaxY = eventType === 'mouse' ? (window.screen.height - floatingballParent.offsetHeight - 97) : (window.screen.height - floatingballParent.offsetHeight)
     range = {
       minX: offsetDistanceObj.left,
       maxX: (offsetDistanceObj.left + floatballContainObjParent.offsetWidth) <= window.screen.width ? (offsetDistanceObj.left + viewContentW - floatingballParent.offsetWidth) : (window.screen.width - floatingballParent.offsetWidth),
       minY: (offsetDistanceObj.top - document.documentElement.scrollTop) > 0 ? (offsetDistanceObj.top - document.documentElement.scrollTop) : 0,
-      maxY: (offsetDistanceObj.top + floatballContainObjParent.offsetHeight) <= window.screen.height ? (offsetDistanceObj.top + viewContentH - floatingballParent.offsetHeight) : ((offsetDistanceObj.top + floatballContainObjParent.offsetHeight - window.screen.height) > document.documentElement.scrollTop ? (window.screen.height - floatingballParent.offsetHeight - 97) : (offsetDistanceObj.top + floatballContainObjParent.offsetHeight - document.documentElement.scrollTop - floatingballParent.offsetHeight))
+      maxY: (offsetDistanceObj.top + floatballContainObjParent.offsetHeight) <= window.screen.height ? (offsetDistanceObj.top + viewContentH - floatingballParent.offsetHeight) : ((offsetDistanceObj.top + floatballContainObjParent.offsetHeight - window.screen.height) > document.documentElement.scrollTop ? tempCurrentMaxY : (offsetDistanceObj.top + floatballContainObjParent.offsetHeight - document.documentElement.scrollTop - floatingballParent.offsetHeight))
     }
   }
 
@@ -256,7 +263,7 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     } else {
       elData.isShow = true
     }
-    currentBallPopover()
+    currentBallPopover('mouse')
 
     floatingballBox.appendChild(nodeToFragment(floatingballBox, 'down', fmtThemeColor))
 
@@ -268,8 +275,9 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     event.preventDefault()
     if (elData.isShow) {
       elData.isShow = false
+      popoverNode.style.display = 'none'
       popoverNode.style.width = 0
-      popoverNode.style.height = 0
+      popoverNode.style.minHeight = 0
     }
 
     let presentPosition = getPresentPosition(event, 'mouse')
@@ -302,7 +310,7 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     } else {
       elData.isShow = true
     }
-    currentBallPopover()
+    currentBallPopover('touch')
 
     floatingballBox.appendChild(nodeToFragment(floatingballBox, 'down', fmtThemeColor))
 
@@ -317,8 +325,9 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     event.preventDefault()
     if (elData.isShow) {
       elData.isShow = false
+      popoverNode.style.display = 'none'
       popoverNode.style.width = 0
-      popoverNode.style.height = 0
+      popoverNode.style.minHeight = 0
     }
     let touch = event.touches[0]
     let presentPosition = getPresentPosition(touch, 'touch')
