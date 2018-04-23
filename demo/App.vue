@@ -29,20 +29,16 @@ export default {
   },
   methods: {
     ShowDataIonic () {
-      alert('ionic')
-      console.log('ionic')
+      alert('点击了ionic图标')
     },
     ShowDataHeart () {
-      alert('heart')
-      console.log('heart')
+      alert('点击了heart图标')
     },
     ShowDataHappy () {
-      alert('happy')
-      console.log('happy')
+      alert('点击了happy图标')
     },
     ShowDataEarth () {
-      alert('earth')
-      console.log('earth')
+      alert('点击了earth图标')
     }
   }
 }
