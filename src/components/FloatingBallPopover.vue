@@ -6,7 +6,6 @@ export default {
   mixins: [ Emitter ],
   render: function (createElement) {
     let self = this
-    self.popoverEvents = self.popoverEvents ? self.popoverEvents : []
     return createElement(
       'div',
       {
