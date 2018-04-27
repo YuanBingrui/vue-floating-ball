@@ -60,6 +60,9 @@ export default {
       type: Array,
       validator (val) {
         return val instanceof Array
+      },
+      default: function () {
+        return []
       }
     }
   }

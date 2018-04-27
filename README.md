@@ -11,7 +11,7 @@ By npm or yarn
 ```
 npm install vue-floating-ball@latest -S
 
-yarn add vue-event-fullcalendar@latest
+yarn add vue-floating-ball@latest
 ```
 By CDN
 ```
