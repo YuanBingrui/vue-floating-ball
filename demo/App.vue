@@ -18,10 +18,10 @@ export default {
       themeColor: '#316745',
       initPosition: 'top left',
       popoverEvents: [
-        {parentName: 'App', eventName: 'show-data-ionic', iconName: 'ion-ionic', showName: 'ionic'},
-        {parentName: 'App', eventName: 'show-data-heart', iconName: 'ion-heart', showName: 'heart'},
-        {parentName: 'App', eventName: 'show-data-happy', iconName: 'ion-happy-outline', showName: 'happy-outline'},
-        {parentName: 'App', eventName: 'show-data-earth', iconName: 'ion-earth', showName: 'earth'}]
+        {parentName: 'App', eventName: 'show-data-ionic', iconName: 'fal fa-camera-retro', showName: 'ionic'},
+        {parentName: 'App', eventName: 'show-data-heart', iconName: 'fal fa-camera-retro', showName: 'heart'},
+        {parentName: 'App', eventName: 'show-data-happy', iconName: 'fal fa-camera-retro', showName: 'happy-outline'},
+        {parentName: 'App', eventName: 'show-data-earth', iconName: 'fal fa-camera-retro', showName: 'earth'}]
     }
   },
   created () {

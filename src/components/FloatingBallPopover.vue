@@ -1,5 +1,6 @@
 <script>
 import Emitter from '@/libs/emitter'
+import 'font-awesome/scss/font-awesome.scss'
 
 export default {
   name: 'FloatingBallPopover',
@@ -37,7 +38,7 @@ export default {
                 createElement(
                   'i',
                   {
-                    class: [eventItem.iconName, 'ion']
+                    class: [eventItem.iconName]
                   }
                 )
               ]
@@ -70,8 +71,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../style/ionicons";
-
 .floating-ball-popover {
   position: absolute;
   border-radius: 2rem;
