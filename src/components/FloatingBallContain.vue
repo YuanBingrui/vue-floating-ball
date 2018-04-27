@@ -29,9 +29,6 @@ export default {
       type: Array,
       validator (val) {
         return val instanceof Array
-      },
-      default: function () {
-        return []
       }
     }
   },
@@ -42,7 +39,7 @@ export default {
     }
   },
   created () {
-    this.popoverEventsNum = this.popoverEvents.length > 4 ? this.popoverEvents.length : 4
+    this.popoverEventsNum = this.popoverEvents ? this.popoverEvents.length : 4
   },
   mounted () {
     this.$nextTick(() => {
