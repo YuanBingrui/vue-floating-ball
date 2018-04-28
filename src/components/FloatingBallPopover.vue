@@ -1,13 +1,11 @@
 <script>
 import Emitter from '@/libs/emitter'
-import 'font-awesome/scss/font-awesome.scss'
 
 export default {
   name: 'FloatingBallPopover',
   mixins: [ Emitter ],
   render: function (createElement) {
     let self = this
-    self.popoverEvents = self.popoverEvents ? self.popoverEvents : []
     return createElement(
       'div',
       {
@@ -38,7 +36,7 @@ export default {
                 createElement(
                   'i',
                   {
-                    class: [eventItem.iconName]
+                    class: [eventItem.iconName, 'ion']
                   }
                 )
               ]
@@ -61,9 +59,6 @@ export default {
       type: Array,
       validator (val) {
         return val instanceof Array
-      },
-      default: function () {
-        return []
       }
     }
   }
@@ -71,6 +66,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../style/ionicons";
+
 .floating-ball-popover {
   position: absolute;
   border-radius: 2rem;
