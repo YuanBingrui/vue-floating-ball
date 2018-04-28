@@ -123,19 +123,6 @@ CDN example
 </body>
 </html>
 ```
-Directory Structure
-```
-|--dist
-|  |--fonts
-|     |--font file
-|  |--img
-|     |--svg file
-|  |--js
-|     |--vue.min.js
-|     |--vue-floating-ball.min.js
-|--index.html
-
-```
 
 ### Docs
 
