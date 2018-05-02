@@ -70,11 +70,12 @@ export default {
 
 .floating-ball-popover {
   position: absolute;
+  padding: 0.2rem;
   border-radius: 2rem;
+  display: flex;
   flex-flow: row wrap;
   align-content: flex-start;
-  padding: 0.2rem;
-  // transition: width 2s, height 2s;
+  transition: transform .2s;
   &-item {
     color: #fff;
     cursor: pointer;

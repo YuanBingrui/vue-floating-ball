@@ -16,11 +16,12 @@ export default {
   data () {
     return {
       themeColor: '#316745',
-      initPosition: 'top left',
+      initPosition: 'bottom left',
       popoverEvents: [
         {parentName: 'App', eventName: 'show-data-ionic', iconName: 'ion-ionic', showName: 'ionic'},
         {parentName: 'App', eventName: 'show-data-heart', iconName: 'ion-heart', showName: 'heart'},
         {parentName: 'App', eventName: 'show-data-happy', iconName: 'ion-happy-outline', showName: 'happy-outline'},
+        {parentName: 'App', eventName: 'show-data-earth', iconName: 'ion-earth', showName: 'earth'},
         {parentName: 'App', eventName: 'show-data-earth', iconName: 'ion-earth', showName: 'earth'}]
     }
   },

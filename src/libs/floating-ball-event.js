@@ -112,13 +112,15 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
 
   // ballPopover current position
   function currentBallPopover (eventType) {
-    let popoverStatus = elData.isShow ? 10 : 0
-    popoverNode.style.display = elData.isShow ? 'flex' : 'none'
-    popoverNode.style.width = popoverStatus + 'rem'
-    popoverNode.style.minHeight = popoverStatus + 'rem'
-    popoverNode.style.background = 'rgba(' + fmtThemeColor + ',' + 0.65 + ')'
     let tempPopoverEventNum = computedPopoverNum() - 2
-
+    let popoverStatus = elData.isShow ? 10 + (tempPopoverEventNum * 5) : 0
+    // popoverNode.style.display = elData.isShow ? 'flex' : 'none'
+    if (elData.isShow) {
+      popoverNode.style.width = 10 + 'rem'
+      popoverNode.style.height = popoverStatus + 'rem'
+      popoverNode.style.background = 'rgba(' + fmtThemeColor + ',' + 0.65 + ')'
+    }
+    popoverNode.style.transform = elData.isShow ? 'scale(1, 1)' : 'scale(0, 0)'
     updateRange(eventType)
 
     let floatingballParentTop = Number(floatingballParent.style.top.replace(/px/, ''))
@@ -128,33 +130,41 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
       if (floatingballParentLeft > range.minX + 100 && floatingballParentLeft < range.maxX - 100) {
         popoverNode.style.top = 3.5 + 'rem'
         popoverNode.style.left = -3.25 + 'rem'
+        popoverNode.style.transformOrigin = '50% 0'
       } else if (floatingballParentLeft < range.minX + 100) {
         popoverNode.style.top = 2.5 + 'rem'
         popoverNode.style.left = 2.5 + 'rem'
+        popoverNode.style.transformOrigin = '0 0'
       } else {
         popoverNode.style.top = 2.5 + 'rem'
         popoverNode.style.left = -9 + 'rem'
+        popoverNode.style.transformOrigin = '100% 0'
       }
     }
     if (floatingballParentTop > range.maxY - 100) {
       if (floatingballParentLeft > range.minX + 100 && floatingballParentLeft < range.maxX - 100) {
         popoverNode.style.top = -(10 + 5 * tempPopoverEventNum) + 'rem'
         popoverNode.style.left = -3.25 + 'rem'
+        popoverNode.style.transformOrigin = '50% 100%'
       } else if (floatingballParentLeft < range.minX + 100) {
         popoverNode.style.top = -(9 + 5 * tempPopoverEventNum) + 'rem'
         popoverNode.style.left = 2.5 + 'rem'
+        popoverNode.style.transformOrigin = '0 100%'
       } else {
         popoverNode.style.top = -(9 + 5 * tempPopoverEventNum) + 'rem'
-        popoverNode.style.left = -9 + 'rem'
+        popoverNode.style.left = -9.5 + 'rem'
+        popoverNode.style.transformOrigin = '100% 100%'
       }
     }
     if (floatingballParentTop > range.minY + 100 && floatingballParentTop < range.maxY - 100) {
       if (floatingballParentLeft < range.minX + 200) {
         popoverNode.style.top = -(3.25 + 2.5 * tempPopoverEventNum) + 'rem'
         popoverNode.style.left = 3.5 + 'rem'
+        popoverNode.style.transformOrigin = '0 50%'
       } else if (floatingballParentLeft > range.maxX - 200) {
         popoverNode.style.top = -(3.25 + 2.5 * tempPopoverEventNum) + 'rem'
-        popoverNode.style.left = -10 + 'rem'
+        popoverNode.style.left = -10.5 + 'rem'
+        popoverNode.style.transformOrigin = '100% 50%'
       }
     }
 
@@ -275,9 +285,10 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     event.preventDefault()
     if (elData.isShow) {
       elData.isShow = false
-      popoverNode.style.display = 'none'
-      popoverNode.style.width = 0
-      popoverNode.style.minHeight = 0
+      popoverNode.style.transform = 'scale(0, 0)'
+      // popoverNode.style.display = 'none'
+      // popoverNode.style.width = 0
+      // popoverNode.style.height = 0
     }
 
     let presentPosition = getPresentPosition(event, 'mouse')
@@ -325,9 +336,10 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     event.preventDefault()
     if (elData.isShow) {
       elData.isShow = false
-      popoverNode.style.display = 'none'
-      popoverNode.style.width = 0
-      popoverNode.style.minHeight = 0
+      popoverNode.style.transform = 'scale(0, 0)'
+      // popoverNode.style.display = 'none'
+      // popoverNode.style.width = 0
+      // popoverNode.style.height = 0
     }
     let touch = event.touches[0]
     let presentPosition = getPresentPosition(touch, 'touch')
