@@ -226,10 +226,11 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
   }
 
   function updateRange (eventType) {
+    let tempCurrentMaxX = eventType === 'mouse' ? (window.screen.width - floatingballParent.offsetWidth) : (window.screen.width - floatingballParent.offsetWidth)
     let tempCurrentMaxY = eventType === 'mouse' ? (window.screen.height - floatingballParent.offsetHeight - 97) : (window.screen.height - floatingballParent.offsetHeight)
     range = {
-      minX: offsetDistanceObj.left,
-      maxX: (offsetDistanceObj.left + floatballContainObjParent.offsetWidth) <= window.screen.width ? (offsetDistanceObj.left + viewContentW - floatingballParent.offsetWidth) : (window.screen.width - floatingballParent.offsetWidth),
+      minX: (offsetDistanceObj.left - document.documentElement.scrollLeft) > 0 ? (offsetDistanceObj.top - document.documentElement.scrollLeft) : 0,
+      maxX: (offsetDistanceObj.left + floatballContainObjParent.offsetWidth) <= window.screen.width ? (offsetDistanceObj.left + viewContentW - floatingballParent.offsetWidth) : ((offsetDistanceObj.left + floatballContainObjParent.offsetWidth - window.screen.width) > document.documentElement.scrollLeft ? tempCurrentMaxX : (offsetDistanceObj.left + floatballContainObjParent.offsetWidth - document.documentElement.scrollLeft - floatingballParent.offsetWidth)),
       minY: (offsetDistanceObj.top - document.documentElement.scrollTop) > 0 ? (offsetDistanceObj.top - document.documentElement.scrollTop) : 0,
       maxY: (offsetDistanceObj.top + floatballContainObjParent.offsetHeight) <= window.screen.height ? (offsetDistanceObj.top + viewContentH - floatingballParent.offsetHeight) : ((offsetDistanceObj.top + floatballContainObjParent.offsetHeight - window.screen.height) > document.documentElement.scrollTop ? tempCurrentMaxY : (offsetDistanceObj.top + floatballContainObjParent.offsetHeight - document.documentElement.scrollTop - floatingballParent.offsetHeight))
     }

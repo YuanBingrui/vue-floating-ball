@@ -3,9 +3,9 @@
     <div class="floating-box">
       <floating-ball :theme-color="themeColor" :init-position="initPosition" :popover-events="popoverEvents"></floating-ball>
     </div>
-    <div class="floating-box">
+    <!-- <div class="floating-box">
       <floating-ball :theme-color="themeColor" :init-position="initPosition" :popover-events="popoverEvents"></floating-ball>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -51,11 +51,13 @@ export default {
 <style lang="scss" scoped>
 #app {
   display: flex;
+  width: 100%;
+  height: 500px;
 }
 .floating-box {
   margin: 1%;
-  width: 48%;
-  height: 1000px;
+  width: 100%;
+  height: 100%;
   border: 1px #ccc solid;
 }
 </style>

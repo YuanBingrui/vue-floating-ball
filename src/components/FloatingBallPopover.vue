@@ -75,7 +75,7 @@ export default {
   display: flex;
   flex-flow: row wrap;
   align-content: flex-start;
-  transition: transform .2s;
+  transition: transform .3s;
   &-item {
     color: #fff;
     cursor: pointer;
