@@ -19,7 +19,7 @@ export default {
   props: {
     themeColor: {
       type: String,
-      default: '#adadad'
+      default: '#595857'
     },
     initPosition: {
       type: String,

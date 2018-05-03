@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    <div class="floating-box">
+    <div class="floating-box-left">
+      <floating-ball></floating-ball>
+    </div>
+    <div class="floating-box-right">
       <floating-ball :theme-color="themeColor" :init-position="initPosition" :popover-events="popoverEvents"></floating-ball>
     </div>
-    <!-- <div class="floating-box">
-      <floating-ball :theme-color="themeColor" :init-position="initPosition" :popover-events="popoverEvents"></floating-ball>
-    </div> -->
   </div>
 </template>
 
@@ -52,11 +52,17 @@ export default {
 #app {
   display: flex;
   width: 100%;
-  height: 500px;
+  height: 900px;
 }
-.floating-box {
+.floating-box-left {
   margin: 1%;
-  width: 100%;
+  width: 38%;
+  height: 100%;
+  border: 1px #ccc solid;
+}
+.floating-box-right {
+  margin: 1%;
+  width: 58%;
   height: 100%;
   border: 1px #ccc solid;
 }
