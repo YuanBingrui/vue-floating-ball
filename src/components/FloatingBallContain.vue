@@ -1,5 +1,5 @@
 <template>
-  <div class="floating-ball-contain">
+  <div class="floating-ball-contain" :ref="id">
     <floating-ball></floating-ball>
     <floating-ball-popover :popover-events="popoverEvents"></floating-ball-popover>
   </div>
@@ -37,18 +37,34 @@ export default {
   },
   data () {
     return {
+      id: null,
       isShow: false,
       popoverEventsNum: null
     }
   },
   created () {
+    this.generateID()
     this.popoverEventsNum = this.popoverEvents.length > 4 ? this.popoverEvents.length : 4
   },
   mounted () {
     this.$nextTick(() => {
       FloatBallEvent.init(this, this.themeColor, this.initPosition)
     })
+  },
+  methods: {
+    generateID () {
+      let $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'
+      let maxPos = $chars.length
+      let str = ''
+      for (let i = 0; i < 10; i++) {
+        str += $chars.charAt(Math.floor(Math.random() * maxPos))
+      }
+      this.id = str
+    }
   }
+  // destroyed () {
+  //   window.removeEventListener('scroll', this.handleScroll)
+  // }
 }
 </script>
 

@@ -3,7 +3,7 @@ const FloatBallEvent = {}
 FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) {
   let floatballContainObjParent = floatballContainObj.$el.parentNode
   let elData = floatballContainObj._data
-  let floatingballParent = floatballContainObj.$el
+  let floatingballParent = floatballContainObj.$refs[floatballContainObj.id]
   let floatballObj = floatballContainObj.$children[0]
   let floatingballBox = floatballObj.$el
   let popoverNode = floatballContainObj.$children[1].$el
@@ -56,7 +56,7 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
       minX: offsetDistanceObj.left,
       maxX: (offsetDistanceObj.left + floatballContainObjParent.offsetWidth) <= window.screen.width ? (offsetDistanceObj.left + viewContentW - floatingballParent.offsetWidth) : (window.screen.width - floatingballParent.offsetWidth),
       minY: offsetDistanceObj.top,
-      maxY: (offsetDistanceObj.top + floatballContainObjParent.offsetHeight) <= window.screen.height ? (offsetDistanceObj.top + viewContentH - floatingballParent.offsetHeight) : (window.screen.height - floatingballParent.offsetHeight - 97)
+      maxY: (offsetDistanceObj.top + floatballContainObjParent.offsetHeight) <= window.screen.height ? (offsetDistanceObj.top + viewContentH - floatingballParent.offsetHeight) : (window.screen.height - floatingballParent.offsetHeight - 100)
     }
     let positionArr = positionValue.split(' ')
     let defaultOffsetMinX = (range.minX + 7) + 'px'
@@ -112,6 +112,8 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
 
   // ballPopover current position
   function currentBallPopover (eventType) {
+    let nearThresholdY = viewContentH * 0.1
+    let nearThresholdX = viewContentW * 0.1
     let tempPopoverEventNum = computedPopoverNum() - 2
     let popoverStatus = elData.isShow ? 10 + (tempPopoverEventNum * 5) : 0
     // popoverNode.style.display = elData.isShow ? 'flex' : 'none'
@@ -123,15 +125,15 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     popoverNode.style.transform = elData.isShow ? 'scale(1, 1)' : 'scale(0, 0)'
     updateRange(eventType)
 
-    let floatingballParentTop = Number(floatingballParent.style.top.replace(/px/, ''))
-    let floatingballParentLeft = Number(floatingballParent.style.left.replace(/px/, ''))
+    let floatingballParentTop = removePX(floatingballParent.style.top)
+    let floatingballParentLeft = removePX(floatingballParent.style.left)
 
-    if (floatingballParentTop < range.minY + 100) {
-      if (floatingballParentLeft > range.minX + 100 && floatingballParentLeft < range.maxX - 100) {
+    if (floatingballParentTop < range.minY + nearThresholdY) {
+      if (floatingballParentLeft > range.minX + nearThresholdX && floatingballParentLeft < range.maxX - nearThresholdX) {
         popoverNode.style.top = 3.5 + 'rem'
         popoverNode.style.left = -3.25 + 'rem'
         popoverNode.style.transformOrigin = '50% 0'
-      } else if (floatingballParentLeft < range.minX + 100) {
+      } else if (floatingballParentLeft < range.minX + nearThresholdX) {
         popoverNode.style.top = 2.5 + 'rem'
         popoverNode.style.left = 2.5 + 'rem'
         popoverNode.style.transformOrigin = '0 0'
@@ -141,12 +143,12 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
         popoverNode.style.transformOrigin = '100% 0'
       }
     }
-    if (floatingballParentTop > range.maxY - 100) {
-      if (floatingballParentLeft > range.minX + 100 && floatingballParentLeft < range.maxX - 100) {
+    if (floatingballParentTop > range.maxY - nearThresholdY) {
+      if (floatingballParentLeft > range.minX + nearThresholdX && floatingballParentLeft < range.maxX - nearThresholdX) {
         popoverNode.style.top = -(10 + 5 * tempPopoverEventNum) + 'rem'
         popoverNode.style.left = -3.25 + 'rem'
         popoverNode.style.transformOrigin = '50% 100%'
-      } else if (floatingballParentLeft < range.minX + 100) {
+      } else if (floatingballParentLeft < range.minX + nearThresholdX) {
         popoverNode.style.top = -(9 + 5 * tempPopoverEventNum) + 'rem'
         popoverNode.style.left = 2.5 + 'rem'
         popoverNode.style.transformOrigin = '0 100%'
@@ -156,12 +158,12 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
         popoverNode.style.transformOrigin = '100% 100%'
       }
     }
-    if (floatingballParentTop > range.minY + 100 && floatingballParentTop < range.maxY - 100) {
-      if (floatingballParentLeft < range.minX + 200) {
+    if (floatingballParentTop > range.minY + nearThresholdY && floatingballParentTop < range.maxY - nearThresholdY) {
+      if (floatingballParentLeft < range.minX + nearThresholdX) {
         popoverNode.style.top = -(3.25 + 2.5 * tempPopoverEventNum) + 'rem'
         popoverNode.style.left = 3.5 + 'rem'
         popoverNode.style.transformOrigin = '0 50%'
-      } else if (floatingballParentLeft > range.maxX - 200) {
+      } else if (floatingballParentLeft > range.maxX - nearThresholdX) {
         popoverNode.style.top = -(3.25 + 2.5 * tempPopoverEventNum) + 'rem'
         popoverNode.style.left = -10.5 + 'rem'
         popoverNode.style.transformOrigin = '100% 50%'
@@ -171,6 +173,10 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     function computedPopoverNum () {
       return Math.ceil(elData.popoverEventsNum / 2)
     }
+  }
+
+  function removePX (presentValue) {
+    return Number(presentValue.replace(/px/, ''))
   }
 
   // 颜色转换
@@ -227,9 +233,9 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
 
   function updateRange (eventType) {
     let tempCurrentMaxX = eventType === 'mouse' ? (window.screen.width - floatingballParent.offsetWidth) : (window.screen.width - floatingballParent.offsetWidth)
-    let tempCurrentMaxY = eventType === 'mouse' ? (window.screen.height - floatingballParent.offsetHeight - 97) : (window.screen.height - floatingballParent.offsetHeight)
+    let tempCurrentMaxY = eventType === 'mouse' ? (window.screen.height - floatingballParent.offsetHeight - 100) : (window.screen.height - floatingballParent.offsetHeight)
     range = {
-      minX: (offsetDistanceObj.left - document.documentElement.scrollLeft) > 0 ? (offsetDistanceObj.top - document.documentElement.scrollLeft) : 0,
+      minX: (offsetDistanceObj.left - document.documentElement.scrollLeft) > 0 ? (offsetDistanceObj.left - document.documentElement.scrollLeft) : 0,
       maxX: (offsetDistanceObj.left + floatballContainObjParent.offsetWidth) <= window.screen.width ? (offsetDistanceObj.left + viewContentW - floatingballParent.offsetWidth) : ((offsetDistanceObj.left + floatballContainObjParent.offsetWidth - window.screen.width) > document.documentElement.scrollLeft ? tempCurrentMaxX : (offsetDistanceObj.left + floatballContainObjParent.offsetWidth - document.documentElement.scrollLeft - floatingballParent.offsetWidth)),
       minY: (offsetDistanceObj.top - document.documentElement.scrollTop) > 0 ? (offsetDistanceObj.top - document.documentElement.scrollTop) : 0,
       maxY: (offsetDistanceObj.top + floatballContainObjParent.offsetHeight) <= window.screen.height ? (offsetDistanceObj.top + viewContentH - floatingballParent.offsetHeight) : ((offsetDistanceObj.top + floatballContainObjParent.offsetHeight - window.screen.height) > document.documentElement.scrollTop ? tempCurrentMaxY : (offsetDistanceObj.top + floatballContainObjParent.offsetHeight - document.documentElement.scrollTop - floatingballParent.offsetHeight))
