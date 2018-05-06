@@ -76,8 +76,6 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
       }
     }
 
-    currentBallPopover(terminalType)
-
     function handleNumber (index, positionNum) {
       let halfBoxWidth = floatingballParent.offsetWidth / 2
       let halfBoxHeight = floatingballParent.offsetHeight / 2
@@ -101,13 +99,14 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
         }
       }
     }
+
+    currentBallPopover()
   }
 
   // ballPopover current position
   function currentBallPopover () {
-    let nearThresholdY = popoverNode.offsetHeight
-    let nearThresholdX = popoverNode.offsetWidth
-    console.log(nearThresholdY, nearThresholdX)
+    let nearThresholdY = viewContentH * 0.15
+    let nearThresholdX = viewContentW * 0.15
     let tempPopoverEventNum = computedPopoverNum() - 2
     let popoverStatus = elData.isShow ? 10 + (tempPopoverEventNum * 5) : 0
     // popoverNode.style.display = elData.isShow ? 'flex' : 'none'
@@ -161,6 +160,10 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
         popoverNode.style.top = -(3.25 + 2.5 * tempPopoverEventNum) + 'rem'
         popoverNode.style.left = -10.5 + 'rem'
         popoverNode.style.transformOrigin = '100% 50%'
+      } else {
+        popoverNode.style.top = -(3.25 + 2.5 * tempPopoverEventNum) + 'rem'
+        popoverNode.style.left = 3.5 + 'rem'
+        popoverNode.style.transformOrigin = '0 50%'
       }
     }
 
@@ -242,7 +245,7 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     } else {
       elData.isShow = true
     }
-    currentBallPopover('mouse')
+    currentBallPopover()
 
     floatingballBox.appendChild(nodeToFragment(floatingballBox, 'down', fmtThemeColor))
 
@@ -290,7 +293,7 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     } else {
       elData.isShow = true
     }
-    currentBallPopover('touch')
+    currentBallPopover()
 
     floatingballBox.appendChild(nodeToFragment(floatingballBox, 'down', fmtThemeColor))
 
