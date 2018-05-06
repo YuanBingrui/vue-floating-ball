@@ -1,16 +1,14 @@
 const FloatBallEvent = {}
 
 FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) {
-  let floatballContainObjParent = floatballContainObj.$el.parentNode
   let elData = floatballContainObj._data
-  let floatingballParent = floatballContainObj.$refs[floatballContainObj.id]
+  let floatingballParent = floatballContainObj.$refs[elData.id]
   let floatballObj = floatballContainObj.$children[0]
   let floatingballBox = floatballObj.$el
   let popoverNode = floatballContainObj.$children[1].$el
-  let offsetDistanceObj = offset(floatballContainObjParent)
-
-  let viewContentW = (offsetDistanceObj.left + floatballContainObjParent.offsetWidth) <= window.screen.width ? floatballContainObjParent.offsetWidth : window.screen.width
-  let viewContentH = (offsetDistanceObj.top + floatballContainObjParent.offsetHeight) <= window.screen.height ? floatballContainObjParent.offsetHeight : window.screen.height
+  let terminalType = /Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent) ? 'Mobile' : 'Computer'
+  let viewContentW = window.screen.width
+  let viewContentH = terminalType === 'Computer' ? (window.screen.height - 100) : window.screen.height
   let range
 
   let fmtThemeColor = colorRgb(themeColor)
@@ -52,12 +50,7 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
 
   // 初始化位置
   function initBallPosition (positionValue) {
-    range = {
-      minX: offsetDistanceObj.left,
-      maxX: (offsetDistanceObj.left + floatballContainObjParent.offsetWidth) <= window.screen.width ? (offsetDistanceObj.left + viewContentW - floatingballParent.offsetWidth) : (window.screen.width - floatingballParent.offsetWidth),
-      minY: offsetDistanceObj.top,
-      maxY: (offsetDistanceObj.top + floatballContainObjParent.offsetHeight) <= window.screen.height ? (offsetDistanceObj.top + viewContentH - floatingballParent.offsetHeight) : (window.screen.height - floatingballParent.offsetHeight - 100)
-    }
+    updateRange()
     let positionArr = positionValue.split(' ')
     let defaultOffsetMinX = (range.minX + 7) + 'px'
     let defaultOffsetMaxX = (range.maxX - 7) + 'px'
@@ -78,42 +71,43 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
         case 'right':
           floatingballParent.style.left = defaultOffsetMaxX
           break
-        // default:
-        //   handleNumber(i, positionArr[i])
+        default:
+          handleNumber(i, positionArr[i])
       }
     }
 
-    currentBallPopover('mouse')
+    currentBallPopover(terminalType)
 
-    // function handleNumber (index, positionNum) {
-    //   let halfBoxWidth = floatingballParent.offsetWidth / 2
-    //   let halfBoxHeight = floatingballParent.offsetHeight / 2
+    function handleNumber (index, positionNum) {
+      let halfBoxWidth = floatingballParent.offsetWidth / 2
+      let halfBoxHeight = floatingballParent.offsetHeight / 2
 
-    //   positionNum = Number(positionNum)
-    //   if (index === 0) {
-    //     if (positionNum > 0 && positionNum < 100) {
-    //       floatingballParent.style.top = offsetDistanceObj.top + (positionNum / 100) * (range.maxY + floatingballParent.offsetHeight) - halfBoxHeight + 'px'
-    //     } else if (positionNum <= 0) {
-    //       floatingballParent.style.top = defaultOffsetMinY
-    //     } else {
-    //       floatingballParent.style.top = defaultOffsetMaxY
-    //     }
-    //   } else {
-    //     if (positionNum > 0 && positionNum < 100) {
-    //       floatingballParent.style.left = offsetDistanceObj.left + (positionNum / 100) * (range.maxX + floatingballParent.offsetWidth) - halfBoxWidth + 'px'
-    //     } else if (positionNum <= 0) {
-    //       floatingballParent.style.left = defaultOffsetMinX
-    //     } else {
-    //       floatingballParent.style.left = defaultOffsetMaxX
-    //     }
-    //   }
-    // }
+      positionNum = Number(positionNum)
+      if (index === 0) {
+        if (positionNum > 0 && positionNum < 95) {
+          floatingballParent.style.top = ((viewContentH * positionNum / 100) - halfBoxHeight) + 'px'
+        } else if (positionNum <= 0) {
+          floatingballParent.style.top = defaultOffsetMinY
+        } else {
+          floatingballParent.style.top = defaultOffsetMaxY
+        }
+      } else {
+        if (positionNum > 0 && positionNum < 95) {
+          floatingballParent.style.left = ((viewContentW * positionNum / 100) - halfBoxWidth) + 'px'
+        } else if (positionNum <= 0) {
+          floatingballParent.style.left = defaultOffsetMinX
+        } else {
+          floatingballParent.style.left = defaultOffsetMaxX
+        }
+      }
+    }
   }
 
   // ballPopover current position
-  function currentBallPopover (eventType) {
-    let nearThresholdY = viewContentH * 0.1
-    let nearThresholdX = viewContentW * 0.1
+  function currentBallPopover () {
+    let nearThresholdY = popoverNode.offsetHeight
+    let nearThresholdX = popoverNode.offsetWidth
+    console.log(nearThresholdY, nearThresholdX)
     let tempPopoverEventNum = computedPopoverNum() - 2
     let popoverStatus = elData.isShow ? 10 + (tempPopoverEventNum * 5) : 0
     // popoverNode.style.display = elData.isShow ? 'flex' : 'none'
@@ -123,7 +117,7 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
       popoverNode.style.background = 'rgba(' + fmtThemeColor + ',' + 0.65 + ')'
     }
     popoverNode.style.transform = elData.isShow ? 'scale(1, 1)' : 'scale(0, 0)'
-    updateRange(eventType)
+    updateRange()
 
     let floatingballParentTop = removePX(floatingballParent.style.top)
     let floatingballParentLeft = removePX(floatingballParent.style.left)
@@ -206,11 +200,11 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
   }
 
   // 更新坐标
-  function getPresentPosition (event, eventType) {
+  function getPresentPosition (event) {
     let presentX = event.clientX - floatingballParent.offsetWidth / 2
     let presentY = event.clientY - floatingballParent.offsetHeight / 2
 
-    updateRange(eventType)
+    updateRange()
 
     if (event.clientX <= range.minX) {
       presentX = range.minX
@@ -231,44 +225,12 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     }
   }
 
-  function updateRange (eventType) {
-    let tempCurrentMaxX = eventType === 'mouse' ? (window.screen.width - floatingballParent.offsetWidth) : (window.screen.width - floatingballParent.offsetWidth)
-    let tempCurrentMaxY = eventType === 'mouse' ? (window.screen.height - floatingballParent.offsetHeight - 100) : (window.screen.height - floatingballParent.offsetHeight)
+  function updateRange () {
     range = {
-      minX: (offsetDistanceObj.left - document.documentElement.scrollLeft) > 0 ? (offsetDistanceObj.left - document.documentElement.scrollLeft) : 0,
-      maxX: (offsetDistanceObj.left + floatballContainObjParent.offsetWidth) <= window.screen.width ? (offsetDistanceObj.left + viewContentW - floatingballParent.offsetWidth) : ((offsetDistanceObj.left + floatballContainObjParent.offsetWidth - window.screen.width) > document.documentElement.scrollLeft ? tempCurrentMaxX : (offsetDistanceObj.left + floatballContainObjParent.offsetWidth - document.documentElement.scrollLeft - floatingballParent.offsetWidth)),
-      minY: (offsetDistanceObj.top - document.documentElement.scrollTop) > 0 ? (offsetDistanceObj.top - document.documentElement.scrollTop) : 0,
-      maxY: (offsetDistanceObj.top + floatballContainObjParent.offsetHeight) <= window.screen.height ? (offsetDistanceObj.top + viewContentH - floatingballParent.offsetHeight) : ((offsetDistanceObj.top + floatballContainObjParent.offsetHeight - window.screen.height) > document.documentElement.scrollTop ? tempCurrentMaxY : (offsetDistanceObj.top + floatballContainObjParent.offsetHeight - document.documentElement.scrollTop - floatingballParent.offsetHeight))
-    }
-  }
-
-  // 获取实际的offset
-  function offset (curEle) {
-    let totalLeft = null
-    let totalTop = null
-    let par = curEle.offsetParent
-
-    // 首先加自己本身的左偏移和上偏移
-    totalLeft += curEle.offsetLeft
-    totalTop += curEle.offsetTop
-
-    // 只要没有找到body，我们就把父级参照物的边框和偏移也进行累加
-    while (par) {
-      if (navigator.userAgent.indexOf('MSIE 8.0') === -1) {
-        // 累加父级参照物的边框
-        totalLeft += par.clientLeft
-        totalTop += par.clientTop
-      }
-
-      // 累加父级参照物本身的偏移
-      totalLeft += par.offsetLeft
-      totalTop += par.offsetTop
-      par = par.offsetParent
-    }
-
-    return {
-      left: totalLeft,
-      top: totalTop
+      minX: 0,
+      maxX: viewContentW - floatingballParent.offsetWidth,
+      minY: 0,
+      maxY: viewContentH - floatingballParent.offsetHeight
     }
   }
 
@@ -298,7 +260,7 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
       // popoverNode.style.height = 0
     }
 
-    let presentPosition = getPresentPosition(event, 'mouse')
+    let presentPosition = getPresentPosition(event)
 
     floatingballParent.style.left = presentPosition.presentX + 'px'
     floatingballParent.style.top = presentPosition.presentY + 'px'
@@ -333,7 +295,7 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     floatingballBox.appendChild(nodeToFragment(floatingballBox, 'down', fmtThemeColor))
 
     let touch = event.touches[0]
-    let presentPosition = getPresentPosition(touch, 'touch')
+    let presentPosition = getPresentPosition(touch)
 
     floatingballParent.style.left = presentPosition.presentX + 'px'
     floatingballParent.style.top = presentPosition.presentY + 'px'
@@ -349,7 +311,7 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
       // popoverNode.style.height = 0
     }
     let touch = event.touches[0]
-    let presentPosition = getPresentPosition(touch, 'touch')
+    let presentPosition = getPresentPosition(touch)
 
     floatingballParent.style.left = presentPosition.presentX + 'px'
     floatingballParent.style.top = presentPosition.presentY + 'px'

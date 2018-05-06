@@ -62,9 +62,6 @@ export default {
       this.id = str
     }
   }
-  // destroyed () {
-  //   window.removeEventListener('scroll', this.handleScroll)
-  // }
 }
 </script>
 

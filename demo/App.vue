@@ -1,11 +1,8 @@
 <template>
   <div id="app">
-    <div class="floating-box-left">
-      <floating-ball></floating-ball>
-    </div>
-    <div class="floating-box-right">
-      <floating-ball :theme-color="themeColor" :init-position="initPosition" :popover-events="popoverEvents"></floating-ball>
-    </div>
+    <img src="./logo.png">
+    <h2>悬浮球(floating ball)功能键组（网页版）</h2>
+    <floating-ball :theme-color="themeColor" :init-position="initPosition" :popover-events="popoverEvents"></floating-ball>
   </div>
 </template>
 
@@ -16,7 +13,7 @@ export default {
   data () {
     return {
       themeColor: '#316745',
-      initPosition: 'bottom left',
+      initPosition: '55 50',
       popoverEvents: [
         {parentName: 'App', eventName: 'show-data-ionic', iconName: 'ion-ionic', showName: 'ionic'},
         {parentName: 'App', eventName: 'show-data-heart', iconName: 'ion-heart', showName: 'heart'},
@@ -50,20 +47,11 @@ export default {
 
 <style lang="scss" scoped>
 #app {
-  display: flex;
-  width: 100%;
-  height: 900px;
-}
-.floating-box-left {
-  margin: 1%;
-  width: 38%;
-  height: 100%;
-  border: 1px #ccc solid;
-}
-.floating-box-right {
-  margin: 1%;
-  width: 58%;
-  height: 100%;
-  border: 1px #ccc solid;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
 }
 </style>
