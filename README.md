@@ -3,7 +3,10 @@
 > A vue plug for showing floating ball. the floating ball can place at any specific size box, not only root box.
 
 ### Screenshots
-![screenshots](screenshots.gif)
+###1. PC
+![screenshots](screenshots_pc.gif)
+###2. mobile
+![screenshots](screenshots_mobile.gif)
 
 ### install
 
