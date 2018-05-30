@@ -21,7 +21,9 @@ export default {
               'floating-ball-popover-item': true
             },
             on: {
-              click: () => self.dispatch(eventItem.parentName, eventItem.eventName, self)
+              click: function () {
+                self.dispatch(eventItem.parentName, eventItem.eventName, self)
+              }
             }
           },
           [
@@ -36,7 +38,7 @@ export default {
                 createElement(
                   'i',
                   {
-                    class: [eventItem.iconName, 'ion']
+                    class: [eventItem.iconName]
                   }
                 )
               ]
@@ -66,8 +68,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../style/ionicons";
-
 .floating-ball-popover {
   position: absolute;
   padding: 0.2rem;
@@ -94,6 +94,7 @@ export default {
     &-icon {
       @include popover-common;
       height: 3.4rem;
+      font-size: 2.3rem;
       // border: 1px #fff solid;
       border-radius: 50%;
     }

@@ -3356,6 +3356,10 @@ invert-kv@^1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/invert-kv/download/invert-kv-1.0.0.tgz#104a8e4aaca6d3d8cd157a8ef8bfab2d7a3ffdb6"
 
+ionicons@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.npmjs.org/ionicons/-/ionicons-4.1.2.tgz#686898252d4ffac6c0877c7c0d2d1fa91a0f8288"
+
 ip@^1.1.0, ip@^1.1.5:
   version "1.1.5"
   resolved "http://registry.npm.taobao.org/ip/download/ip-1.1.5.tgz#bdded70114290828c0a039e72ef25f5aaec4354a"

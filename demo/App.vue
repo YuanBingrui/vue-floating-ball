@@ -15,31 +15,35 @@ export default {
       themeColor: '#316745',
       initPosition: '55 50',
       popoverEvents: [
-        {parentName: 'App', eventName: 'show-data-ionic', iconName: 'ion-ionic', showName: 'ionic'},
-        {parentName: 'App', eventName: 'show-data-heart', iconName: 'ion-heart', showName: 'heart'},
-        {parentName: 'App', eventName: 'show-data-happy', iconName: 'ion-happy-outline', showName: 'happy-outline'},
-        {parentName: 'App', eventName: 'show-data-earth', iconName: 'ion-earth', showName: 'earth'},
-        {parentName: 'App', eventName: 'show-data-earth', iconName: 'ion-earth', showName: 'earth'}]
+        {parentName: 'App', eventName: 'show-data-add', iconName: 'ion ion-ios-add', showName: 'add'},
+        {parentName: 'App', eventName: 'show-data-heart', iconName: 'icon ion-ios-heart', showName: 'heart'},
+        {parentName: 'App', eventName: 'show-data-airplane', iconName: 'ion ion-ios-airplane', showName: 'airplane'},
+        {parentName: 'App', eventName: 'show-data-football', iconName: 'ion ion-ios-american-football', showName: 'football'},
+        {parentName: 'App', eventName: 'show-data-appstore', iconName: 'ion ion-ios-appstore', showName: 'appstore'}]
     }
   },
   created () {
-    this.$on('show-data-ionic', this.ShowDataIonic)
+    this.$on('show-data-add', this.ShowDataAdd)
     this.$on('show-data-heart', this.ShowDataHeart)
-    this.$on('show-data-happy', this.ShowDataHappy)
-    this.$on('show-data-earth', this.ShowDataEarth)
+    this.$on('show-data-airplane', this.ShowDataAirplane)
+    this.$on('show-data-football', this.ShowDataFootball)
+    this.$on('show-data-appstore', this.ShowDataAppstore)
   },
   methods: {
-    ShowDataIonic () {
-      alert('点击了ionic图标')
+    ShowDataAdd () {
+      alert('点击了Add图标')
     },
     ShowDataHeart () {
       alert('点击了heart图标')
     },
-    ShowDataHappy () {
-      alert('点击了happy图标')
+    ShowDataAirplane () {
+      alert('点击了Airplane图标')
     },
-    ShowDataEarth () {
-      alert('点击了earth图标')
+    ShowDataFootball () {
+      alert('点击了Football图标')
+    },
+    ShowDataAppstore () {
+      alert('点击了Appstore图标')
     }
   }
 }

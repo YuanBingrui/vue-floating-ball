@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import VueFloatingBall from '../src/index.js'
+import 'ionicons/dist/css/ionicons.min.css'
 
 Vue.config.productionTip = false
 Vue.use(VueFloatingBall)
