@@ -1,6 +1,8 @@
 # vue-floating-ball
 
-> A vue plug for showing floating ball. the floating ball can place at any specific size box, not only root box.
+> A vue plug for showing floating ball. Because of using fonticon, so you must import any you like Fonticon library by yourself before using it. or there will be a problem that icon do not display normally. By the way, themeColor, initPosition and popoverEvents Props can dynamic change. 
+
+[LiveDemo](http://118.25.47.178/floatingBall/)
 
 ### Screenshots
 ###1. PC
@@ -30,6 +32,7 @@ Register component globally
 import Vue from 'vue'
 import App from './App'
 import VueFloatingBall from 'vue-floating-ball'
+import 'ionicons/dist/css/ionicons.min.css'
 
 Vue.config.productionTip = false
 Vue.use(VueFloatingBall)
@@ -56,39 +59,50 @@ export default {
       themeColor: '#316745',
       initPosition: 'top left',
       popoverEvents: [
-        {parentName: 'App', eventName: 'show-data-ionic', iconName: 'ion-ionic', showName: 'ionic'},
-        {parentName: 'App', eventName: 'show-data-heart', iconName: 'ion-heart', showName: 'heart'},
-        {parentName: 'App', eventName: 'show-data-happy', iconName: 'ion-happy-outline', showName: 'happy-outline'},
-        {parentName: 'App', eventName: 'show-data-earth', iconName: 'ion-earth', showName: 'earth'}]
+        { parentName: 'App', eventName: 'show-data-airplane', iconName: 'ion ion-ios-airplane', showName: 'airplane' },
+        { parentName: 'App', eventName: 'show-data-football', iconName: 'ion ion-ios-american-football', showName: 'football' },
+        { parentName: 'App', eventName: 'show-data-appstore', iconName: 'ion ion-ios-appstore', showName: 'appstore' },
+        { parentName: 'App', eventName: 'show-data-github', iconName: 'ion ion-logo-github', showName: 'github' },
+        { parentName: 'App', eventName: 'show-data-css3', iconName: 'ion ion-logo-css3', showName: 'css3' },
+        { parentName: 'App', eventName: 'show-data-html5', iconName: 'ion ion-logo-html5', showName: 'html5' }]
     }
   },
   created () {
-    this.$on('show-data-ionic', this.ShowDataIonic)
+    this.$on('show-data-add', this.ShowDataAdd)
     this.$on('show-data-heart', this.ShowDataHeart)
-    this.$on('show-data-happy', this.ShowDataHappy)
-    this.$on('show-data-earth', this.ShowDataEarth)
+    this.$on('show-data-airplane', this.ShowDataAirplane)
+    this.$on('show-data-football', this.ShowDataFootball)
+    this.$on('show-data-appstore', this.ShowDataAppstore)
+    this.$on('show-data-github', this.ShowDataGithub)
   },
   methods: {
-    ShowDataIonic () {
-      alert('点击了ionic图标')
+    ShowDataAdd () {
+      alert('点击了Add图标')
     },
     ShowDataHeart () {
-      alert('点击了heart图标')
+      alert('点击了Heart图')
     },
-    ShowDataHappy () {
-      alert('点击了happy图标')
+    ShowDataAirplane () {
+      alert('点击了Airplane图标')
     },
-    ShowDataEarth () {
-      alert('点击了earth图标')
+    ShowDataFootball () {
+      alert('点击了Football图标')
+    },
+    ShowDataAppstore () {
+      alert('点击了Appstore图标')
+    },
+    ShowDataGithub () {
+      alert('点击了Github图标')
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 #app {
-  width: 100%;
-  height: 500px;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 30px;
 }
 </style>
 
@@ -104,23 +118,71 @@ CDN example
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>vue-floating-ball</title>
-    <script type="text/javascript" src="./js/vue.min.js"></script>
-    <script type="text/javascript" src="./js/vue-floating-ball.min.js"></script>
+    <link href="https://unpkg.com/ionicons@4.1.2/dist/css/ionicons.min.css" rel="stylesheet">
     <style type="text/css">
-        div#app {
-            width: 100%;
-            height: 500px;
-        }
+      #app {
+        text-align: center;
+        color: #2c3e50;
+        margin-top: 30px;
+      }
     </style>
 </head>
 
 <body>
     <div id="app">
-        <floating-ball></floating-ball>
+      <floating-ball
+        :theme-color="themeColor"
+        :init-position="initPosition"
+        :popover-events="popoverEvents">
+    </floating-ball>
     </div>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="./js/vue-floating-ball.min.js"></script>
     <script>
         new Vue({
-            el: '#app'
+          el: '#app',
+          name: 'App',
+          data() {
+            return {
+              themeColor: '#595857',
+              initPosition: 'top left',
+              popoverEvents: [
+                { parentName: 'App', eventName: 'show-data-airplane', iconName: 'ion ion-ios-airplane', showName: 'airplane' },
+                { parentName: 'App', eventName: 'show-data-football', iconName: 'ion ion-ios-american-football', showName: 'football' },
+                { parentName: 'App', eventName: 'show-data-appstore', iconName: 'ion ion-ios-appstore', showName: 'appstore' },
+                { parentName: 'App', eventName: 'show-data-github', iconName: 'ion ion-logo-github', showName: 'github' },
+                { parentName: 'App', eventName: 'show-data-css3', iconName: 'ion ion-logo-css3', showName: 'css3' },
+                { parentName: 'App', eventName: 'show-data-html5', iconName: 'ion ion-logo-html5', showName: 'html5' }]
+            }
+          },
+          created () {
+            this.$on('show-data-add', this.ShowDataAdd)
+            this.$on('show-data-heart', this.ShowDataHeart)
+            this.$on('show-data-airplane', this.ShowDataAirplane)
+            this.$on('show-data-football', this.ShowDataFootball)
+            this.$on('show-data-appstore', this.ShowDataAppstore)
+            this.$on('show-data-github', this.ShowDataGithub)
+          },
+          methods: {
+            ShowDataAdd () {
+              alert('点击了Add图标')
+            },
+            ShowDataHeart () {
+              alert('点击了Heart图')
+            },
+            ShowDataAirplane () {
+              alert('点击了Airplane图标')
+            },
+            ShowDataFootball () {
+              alert('点击了Football图标')
+            },
+            ShowDataAppstore () {
+              alert('点击了Appstore图标')
+            },
+            ShowDataGithub () {
+              alert('点击了Github图标')
+            }
+          } 
         })
     </script>
 </body>
@@ -144,7 +206,7 @@ CDN example
 | -------------|:-------------:|:-------------:| -----:|
 | parentName     | parent component name | string | - |
 | eventName      | event name | String | - |
-| iconName     | icon name (使用[ionicons](http://ionicons.com/)) | string | - |
+| iconName     | icon name (eg:[ionicons](http://ionicons.com/)) | string | - |
 | showName      | word name | String | - |
 
 ```
@@ -157,30 +219,40 @@ export default {
       themeColor: '#316745',
       initPosition: 'top left',
       popoverEvents: [
-        {parentName: 'App', eventName: 'show-data-ionic', iconName: 'ion-ionic', showName: 'ionic'},
-        {parentName: 'App', eventName: 'show-data-heart', iconName: 'ion-heart', showName: 'heart'},
-        {parentName: 'App', eventName: 'show-data-happy', iconName: 'ion-happy-outline', showName: 'happy-outline'},
-        {parentName: 'App', eventName: 'show-data-earth', iconName: 'ion-earth', showName: 'earth'}]
+        { parentName: 'App', eventName: 'show-data-airplane', iconName: 'ion ion-ios-airplane', showName: 'airplane' },
+        { parentName: 'App', eventName: 'show-data-football', iconName: 'ion ion-ios-american-football', showName: 'football' },
+        { parentName: 'App', eventName: 'show-data-appstore', iconName: 'ion ion-ios-appstore', showName: 'appstore' },
+        { parentName: 'App', eventName: 'show-data-github', iconName: 'ion ion-logo-github', showName: 'github' },
+        { parentName: 'App', eventName: 'show-data-css3', iconName: 'ion ion-logo-css3', showName: 'css3' },
+        { parentName: 'App', eventName: 'show-data-html5', iconName: 'ion ion-logo-html5', showName: 'html5' }]
     }
   },
   created () {
-    this.$on('show-data-ionic', this.ShowDataIonic)
+    this.$on('show-data-add', this.ShowDataAdd)
     this.$on('show-data-heart', this.ShowDataHeart)
-    this.$on('show-data-happy', this.ShowDataHappy)
-    this.$on('show-data-earth', this.ShowDataEarth)
+    this.$on('show-data-airplane', this.ShowDataAirplane)
+    this.$on('show-data-football', this.ShowDataFootball)
+    this.$on('show-data-appstore', this.ShowDataAppstore)
+    this.$on('show-data-github', this.ShowDataGithub)
   },
   methods: {
-    ShowDataIonic () {
-      alert('点击了ionic图标')
+    ShowDataAdd () {
+      alert('点击了Add图标')
     },
     ShowDataHeart () {
-      alert('点击了heart图标')
+      alert('点击了Heart图')
     },
-    ShowDataHappy () {
-      alert('点击了happy图标')
+    ShowDataAirplane () {
+      alert('点击了Airplane图标')
     },
-    ShowDataEarth () {
-      alert('点击了earth图标')
+    ShowDataFootball () {
+      alert('点击了Football图标')
+    },
+    ShowDataAppstore () {
+      alert('点击了Appstore图标')
+    },
+    ShowDataGithub () {
+      alert('点击了Github图标')
     }
   }
 }
