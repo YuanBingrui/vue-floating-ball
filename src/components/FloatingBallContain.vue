@@ -45,18 +45,18 @@ export default {
   watch: {
     themeColor: function () {
       this.$nextTick(() => {
-        FloatBallEvent.init(this, this.themeColor, this.initPosition)
+        FloatBallEvent.init(this, this.themeColor, this.initPosition, 'watch')
       })
     },
     initPosition: function () {
       this.$nextTick(() => {
-        FloatBallEvent.init(this, this.themeColor, this.initPosition)
+        FloatBallEvent.init(this, this.themeColor, this.initPosition, 'watch')
       })
     },
     popoverEvents: function () {
       this.popoverEventsNum = this.popoverEvents.length > 4 ? this.popoverEvents.length : 4
       this.$nextTick(() => {
-        FloatBallEvent.init(this, this.themeColor, this.initPosition)
+        FloatBallEvent.init(this, this.themeColor, this.initPosition, 'watch')
       })
     }
   },
@@ -66,7 +66,7 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      FloatBallEvent.init(this, this.themeColor, this.initPosition)
+      FloatBallEvent.init(this, this.themeColor, this.initPosition, 'init')
     })
   },
   methods: {

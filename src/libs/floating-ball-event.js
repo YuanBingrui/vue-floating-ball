@@ -1,6 +1,6 @@
 const FloatBallEvent = {}
 
-FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) {
+FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue, type) {
   let elData = floatballContainObj._data
   let floatingballParent = floatballContainObj.$refs[elData.id]
   let floatballObj = floatballContainObj.$children[0]
@@ -17,14 +17,22 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
 
   initBallPosition(positionValue)
 
-  removeAllBindEvents()
+  type === 'watch' && removeBindEvents()
 
-  floatballObj.$on('mousedown', onDocumentMouseDown, false)
-  floatballObj.$on('mouseenter', onDocumentMouseEnter, false)
-  floatballObj.$on('mouseleave', onDocumentMouseLeave, false)
-  floatballObj.$on('touchstart', onDocumentTouchStart, false)
-  floatballObj.$on('touchmove', onDocumentTouchMove, false)
-  floatballObj.$on('touchend', onDocumentTouchEnd, false)
+  bindEvents()
+
+  function bindEvents () {
+    floatballObj.$on('mousedown', onDocumentMouseDown, false)
+    floatballObj.$on('mouseenter', onDocumentMouseEnter, false)
+    floatballObj.$on('mouseleave', onDocumentMouseLeave, false)
+    floatballObj.$on('touchstart', onDocumentTouchStart, false)
+    floatballObj.$on('touchmove', onDocumentTouchMove, false)
+    floatballObj.$on('touchend', onDocumentTouchEnd, false)
+  }
+
+  function removeBindEvents () {
+    floatballObj.$off()
+  }
 
   // 创建DocumentFragment
   function nodeToFragment (node, eventType, fmtThemeColor) {
@@ -320,17 +328,6 @@ FloatBallEvent.init = function (floatballContainObj, themeColor, positionValue) 
     event.preventDefault()
 
     floatingballBox.appendChild(nodeToFragment(floatingballBox, 'up', fmtThemeColor))
-  }
-
-  function removeAllBindEvents () {
-    floatballObj.$off('mousedown', onDocumentMouseDown)
-    floatballObj.$off('mouseenter', onDocumentMouseEnter)
-    floatballObj.$off('mouseleave', onDocumentMouseLeave)
-    floatballObj.$off('touchstart', onDocumentTouchStart)
-    floatballObj.$off('touchmove', onDocumentTouchMove)
-    floatballObj.$off('touchend', onDocumentTouchEnd)
-    document.removeEventListener('mousemove', onDocumentMouseMove)
-    floatballObj.$off('mouseup', onDocumentMouseUp)
   }
 }
 
