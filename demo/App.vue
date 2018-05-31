@@ -172,5 +172,4 @@ export default {
     }
   }
 }
-
 </style>
