@@ -23,7 +23,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   output: {
     path: config.build.assetsRoot,
     publicPath: '/dist/',
-    filename: utils.assetsPath('/js/vue-floating-ball.min.js'),
+    filename: path.posix.join('./', '/js/vue-floating-ball.min.js'),
     library: 'VueFloatingBall',
     libraryTarget: 'umd',
     umdNamedDefine: true

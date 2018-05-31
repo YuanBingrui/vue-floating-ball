@@ -42,6 +42,24 @@ export default {
       popoverEventsNum: null
     }
   },
+  watch: {
+    themeColor: function () {
+      this.$nextTick(() => {
+        FloatBallEvent.init(this, this.themeColor, this.initPosition)
+      })
+    },
+    initPosition: function () {
+      this.$nextTick(() => {
+        FloatBallEvent.init(this, this.themeColor, this.initPosition)
+      })
+    },
+    popoverEvents: function () {
+      this.popoverEventsNum = this.popoverEvents.length > 4 ? this.popoverEvents.length : 4
+      this.$nextTick(() => {
+        FloatBallEvent.init(this, this.themeColor, this.initPosition)
+      })
+    }
+  },
   created () {
     this.generateID()
     this.popoverEventsNum = this.popoverEvents.length > 4 ? this.popoverEvents.length : 4

@@ -21,7 +21,8 @@ export default {
               'floating-ball-popover-item': true
             },
             on: {
-              click: function () {
+              click: () => {
+                self.closePopover()
                 self.dispatch(eventItem.parentName, eventItem.eventName, self)
               }
             }
@@ -63,6 +64,12 @@ export default {
         return val instanceof Array
       }
     }
+  },
+  methods: {
+    closePopover () {
+      this.$parent.isShow = false
+      this.$el.style.transform = 'scale(0, 0)'
+    }
   }
 }
 </script>
@@ -79,11 +86,12 @@ export default {
   &-item {
     color: #fff;
     cursor: pointer;
+    box-sizing: border-box;
+    margin: 0.2rem 0.6rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     width: 3.8rem;
-    margin: 0.2rem 0.6rem;
     @mixin popover-common {
       box-sizing: border-box;
       width: 100%;
